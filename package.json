@@ -1,0 +1,39 @@
+{
+  "name": "frame-communication",
+  "version": "0.0.0",
+  "description": "Makes it easy to communicate between html frames",
+  "browser": "build/bundle.js",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "test": "echo \"There are no tests over here :^)\"",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mnbb/frame-communication.git"
+  },
+  "keywords": [
+    "html",
+    "iframe",
+    "frame",
+    "web",
+    "communication",
+    "messages"
+  ],
+  "author": "Matias Batista",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mnbb/frame-communication/issues"
+  },
+  "homepage": "https://github.com/mnbb/frame-communication#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
+  }
+}
