@@ -7,10 +7,9 @@
     "build"
   ],
   "scripts": {
-    "karma": "karma start >> /dev/null 2>> /dev/null &",
-    "stop": "karma stop",
-    "test": "npm run build-watch & karma run",
-    "test-single": "npm run build && karma run --single-run",
+    "start-karma": "karma start >> /dev/null 2>> /dev/null &",
+    "stop-karma": "karma stop",
+    "test": "karma start & npm run build & karma run --single-run; karma stop",
     "build": "webpack",
     "build-watch": "webpack --watch"
   },
@@ -47,5 +46,8 @@
     "mocha": "^6.2.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.2"
   }
 }
