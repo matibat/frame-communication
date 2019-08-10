@@ -1,21 +1,26 @@
 'use strict'
 
-import FrameCommunication from '../build/build';
+// const FrameCommunication = require('frame-communication');
+// import * as FrameCommunication from 'FrameCommunication';
 
 const assert = chai.assert;
 
-describe('Test suite #1', function() {
+describe('FrameCommunication.findAllFrames()', function() {
+    let domains;
 
     this.beforeEach(function() {
         console.log(JSON.stringify(FrameCommunication));
+        domains = FrameCommunication.findAllFrames();
     });
 
-    it('finds all active frames by domain', function(done, reject) {
-        const domains = FrameCommunication.findAllFrames();
-        if (Array.isArray(domains)) {
-            done();
-        } else {
-            reject();
-        }
+    it('returns an array', function(done, reject) {
+        domains = FrameCommunication.findAllFrames();
+        assert.isArray(domains)
+        done();
+    });
+
+    it('returned type is correnct', function(done, reject) {
+        const expectedType = FrameCommunication.FrameContainer;
+        assert.instanceOf(domains, expectedType);
     });
 });

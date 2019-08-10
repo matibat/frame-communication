@@ -3,8 +3,8 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai'],
     
         files: [
-            {pattern: './tests/**/*.js', watch: true},
-            // {pattern: './build/**/*.js', watch: true}
+            {pattern: './build/**/*.js', watch: true},
+            {pattern: './tests/**/*.js', watch: true}
         ],
 
         preprocessors: {
@@ -13,8 +13,10 @@ module.exports = function(config) {
 
         webpack: {
             // externals: {
-            //     'frame-communication': 'FrameCommunication',
+            //     'FrameCommunication': 'FrameCommunication',
             // },
+            mode: 'development',
+            devtool: 'eval-source-map'
         },
 
         customClientContextFile: "./tests/index.html",
