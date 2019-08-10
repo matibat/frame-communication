@@ -3,10 +3,23 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai'],
     
         files: [
-            './tests/*.js'
+            {pattern: './tests/**/*.js', watch: true},
+            // {pattern: './build/**/*.js', watch: true}
         ],
 
-        singleRun: true,
+        preprocessors: {
+            './tests/**/*.js': ['webpack']
+        },
+
+        webpack: {
+            // externals: {
+            //     'frame-communication': 'FrameCommunication',
+            // },
+        },
+
+        customClientContextFile: "./tests/index.html",
+
+        autoWatch: true,
 
         browsers: ['Chrome'],
     

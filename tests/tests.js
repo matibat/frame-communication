@@ -1,11 +1,21 @@
+'use strict'
+
+import FrameCommunication from '../build/build';
 
 const assert = chai.assert;
 
-describe('Array', function() {
-  describe('#indexOf()', function () {
-    it('should return -1 when the value is not present', function () {
-      assert.equal(-1, [1,2,3].indexOf(5));
-      assert.equal(-1, [1,2,3].indexOf(0));
+describe('Test suite #1', function() {
+
+    this.beforeEach(function() {
+        console.log(JSON.stringify(FrameCommunication));
     });
-  });
+
+    it('finds all active frames by domain', function(done, reject) {
+        const domains = FrameCommunication.findAllFrames();
+        if (Array.isArray(domains)) {
+            done();
+        } else {
+            reject();
+        }
+    });
 });

@@ -6,7 +6,9 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'build.js'
+    filename: 'build.js',
+    library: 'FrameCommunication',
+    libraryTarget: "umd"
   },
   module: {
     rules: [
