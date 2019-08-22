@@ -1,10 +1,10 @@
 'use strict'
 
-import { findAllFrames } from './query';
+import { getAllFrames } from './query';
 import { Observable } from 'rxjs';
 
-const ACTION_ADD = 'ADD';
-const ACTION_REMOVE = 'REMOVE';
+export const ACTION_ADD = 'ADD';
+export const ACTION_REMOVE = 'REMOVE';
 const DEFAULT_REFRESH_TIMEOUT = 5000;
 const frames = [ ]
 const subscribersAll = [ ]
@@ -42,7 +42,7 @@ export const start = function(_timeout) {
         stop();
     }
     REFRESH_INTERVAL = setInterval(() => {;
-        const updatedFrames = findAllFrames();
+        const updatedFrames = getAllFrames();
         refresh(updatedFrames);
     }, DEFAULT_REFRESH_TIMEOUT);
 }
@@ -59,8 +59,21 @@ export const stop = function() {
     REFRESH_INTERVAL = null;
 }
 
+export function getAll() {
+    return new Promise((done, reject) => {
+        const unsubscribe = all.subscribe({
+            next: function next(value) {
+                done(value);
+                unsubscribe();
+            }
+        });
+    });
+}
+
 export const all = new Observable(observer => {
     subscribersAll.push(observer);
+
+    observer.next(frames);
 
     function unsubscribe() {
         const index = subscribersAll.indexOf(observer);
@@ -71,6 +84,10 @@ export const all = new Observable(observer => {
 
 export const changes = new Observable(observer => {
     subscribersChanges.push(observer);
+
+    frames.forEach((frame) => {
+        observer.next(frame);
+    });
 
     function unsubscribe() {
         const index = subscribersChanges.indexOf(observer);

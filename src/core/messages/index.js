@@ -1,0 +1,1 @@
+export { appDiscovered } from './handlers';

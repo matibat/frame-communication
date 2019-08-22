@@ -1,9 +1,9 @@
 'use strict'
 
 import { windowToIterable } from '../utilities';
-export { FrameContainer } from '../FrameContainer';
+export { Frame } from './Frame';
 
-export const findAllFrames = () => { 
+export const getAllFrames = () => { 
     const firstParent = getFirstParent(window);
     const allFrames = getAllChildrenFrames(firstParent);
     allFrames.push(firstParent);
