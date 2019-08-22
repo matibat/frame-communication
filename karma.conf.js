@@ -3,8 +3,11 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai'],
     
         files: [
-            {pattern: './build/**/*.js', watch: true},
-            {pattern: './tests/**/*.js', watch: true}
+            {pattern: './build/**/*.js', watched: true},
+            {pattern: './tests/dummyFrameController.js', included: false},
+            {pattern: './tests/**/*.js', watched: true},
+            {pattern: './tests/dummy_frame.html', watched: true, included: false},
+            {pattern: 'node_modules/babel-polyfill/dist/polyfill.js', watched: false}
         ],
 
         preprocessors: {
@@ -15,26 +18,35 @@ module.exports = function(config) {
             // externals: {
             //     'FrameCommunication': 'FrameCommunication',
             // },
+            module: {
+                rules: [
+                    {
+                        test: /\.js$/,
+                        exclude: /(node_modules|bower_components)/,
+                        use: {
+                          loader: 'babel-loader',
+                          options: {
+                            presets: ['@babel/preset-env'],
+                            plugins: ['@babel/plugin-proposal-class-properties'],
+                          }
+                        }
+                    },
+                ]
+            },
             mode: 'development',
             devtool: 'eval-source-map'
         },
 
-        customClientContextFile: "./tests/index.html",
+        customContextFile: "./tests/index.html",
 
         autoWatch: true,
 
         browsers: ['Chrome'],
     
         client: {
+            useIframe: false,
             mocha: {
-                // change Karma's debug.html to the mocha web reporter
-                reporter: 'html',
-        
-                // require specific files after Mocha is initialized
-                // require: [require.resolve('bdd-lazy-var/bdd_lazy_var_global')],
-        
-                // // custom ui, defined in required file above
-                // ui: 'bdd-lazy-var/global',
+                reporter: 'html'
             }
         }
     });
