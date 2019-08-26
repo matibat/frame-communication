@@ -3,7 +3,7 @@
 import { windowToIterable } from '../utilities';
 export { Frame } from './Frame';
 
-export const getAllFrames = () => { 
+export const getAllFrameWindows = () => { 
     const firstParent = getFirstParent(window);
     const allFrames = getAllChildrenFrames(firstParent);
     allFrames.push(firstParent);
@@ -11,8 +11,9 @@ export const getAllFrames = () => {
 }
 
 const getFirstParent = (mainFrame) => {
-    if (mainFrame.length !== 0) {
-        const parentFrame = mainFrame.parent;
+    const parentFrame = mainFrame.parent;
+    const parentIsSelf = parentFrame === window;
+    if (mainFrame.length !== 0 && !parentIsSelf) {
         return getFirstParent(parentFrame);
     }
     return mainFrame;

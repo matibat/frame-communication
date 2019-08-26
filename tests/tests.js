@@ -1,6 +1,7 @@
 'use strict'
 
-import { getAllFrames } from '../src/core';
+import { getAllFrameWindows } from '../src/core';
+import { isNumber } from 'util';
 
 const assert = chai.assert;
 
@@ -9,20 +10,29 @@ describe('core.findAllFrames()', function() {
 
     this.beforeAll(function() {
         console.log(JSON.stringify(FrameCommunication));
-        frames = getAllFrames();
+        frames = getAllFrameWindows();
     });
 
-    it('returns an array', function(done, reject) {
+    it('returns an array', function(resolve, reject) {
         assert.isArray(frames)
-        done();
+        resolve();
     });
 
-    it('returned type is correnct', function(done, reject) {
-        const expectedType = FrameCommunication.FrameContainer;
+    it('there is some element found', function(resolve, reject) {
+        const length = frames.length;
+        assert.isAtLeast(length, 1);
+        resolve();
+    });
+
+    it('returned array contains window frames', function(resolve, reject) {
         frames.forEach(frame => {
-            assert.instanceOf(frame, expectedType);
+            const hasLength = isNumber(frame.length);
+            const hasFramesAttribute = Object.keys(frame).includes('frames');
+            if (!(hasFramesAttribute && hasLength)) {
+                reject();
+            }
         });
-        done();
+        resolve();
     });
 });
 

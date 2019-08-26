@@ -3,7 +3,7 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai'],
     
         files: [
-            {pattern: './build/**/*.js', watched: true},
+            {pattern: './build/build.js', watched: true},
             {pattern: './tests/dummyFrameController.js', included: false},
             {pattern: './tests/**/*.js', watched: true},
             {pattern: './tests/dummy_frame.html', watched: true, included: false},
@@ -34,17 +34,18 @@ module.exports = function(config) {
                 ]
             },
             mode: 'development',
-            devtool: 'eval-source-map'
+            devtool: 'inline-source-map'
         },
 
-        customContextFile: "./tests/index.html",
+        customDebugFile: "./tests/custom_debug_template.html",
 
         autoWatch: true,
 
         browsers: ['Chrome'],
     
         client: {
-            useIframe: false,
+            // useIframe: false,
+            // runInParent: true,
             mocha: {
                 reporter: 'html'
             }

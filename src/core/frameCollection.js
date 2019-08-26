@@ -1,6 +1,6 @@
 'use strict'
 
-import { getAllFrames } from './query';
+import { getAllFrameWindows } from './query';
 import { Observable } from 'rxjs';
 
 export const ACTION_ADD = 'ADD';
@@ -42,7 +42,7 @@ export const start = function(_timeout) {
         stop();
     }
     REFRESH_INTERVAL = setInterval(() => {;
-        const updatedFrames = getAllFrames();
+        const updatedFrames = getAllFrameWindows();
         refresh(updatedFrames);
     }, DEFAULT_REFRESH_TIMEOUT);
 }
