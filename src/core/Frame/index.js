@@ -1,18 +1,20 @@
 'use strict'
 
+import { Observable } from 'rxjs';
 import { changes, ACTION_ADD, ACTION_REMOVE } from '../frameCollection';
-export { Frame } from './Frame';
+import { Frame } from './Frame';
+export { Frame };
 
 const foundFrames = [ ]
 
 let unsubscribeFrameCollection = changes.subscribe({ next: onFrameChanged });
 
-function onFrameChanged({frame, action}) {
+function onFrameChanged({value, action}) {
     if (action === ACTION_ADD) {
-        const newFrame = new Frame(frame);
+        const newFrame = new Frame(value);
         foundFrames.push(newFrame);
     } else if (action === ACTION_REMOVE) {
-        const toRemove = getFrame(frame);
+        const toRemove = getFrame(value);
         const indexToRemove = foundFrames.indexOf(toRemove);
         foundFrames.splice(indexToRemove, 1);
     }
@@ -24,6 +26,6 @@ export function getFrame(wantedFrame) {
 }
 
 export function findFrames(frameName) {
-    const found = foundFrames.filter(frame => frame.name === frameName);
+    const found = foundFrames.filter(frame => frame.appName === frameName);
     return found;
 }

@@ -2,7 +2,9 @@
 
 // TODO: Add middleware support
 
-export { Frame, findFrames, start, stop } from './core';
+import { sayIAm, getAllFrameWindows, start as listen, stop as pause } from './core';
+
+export { Frame, findFrames, listen, pause } from './core';
 
 let appName = '';
 
@@ -13,11 +15,19 @@ export function getAppName() {
 export function enable(_appName) {
     if (appName === '') {
         appName = _appName;
-        start();
+        announceMe();
+        listen();
     }
+}
+
+function announceMe() {
+    const allFrameWindows = getAllFrameWindows();
+    allFrameWindows.forEach(frame => {
+        sayIAm(frame);
+    });
 }
 
 export function disable() {
     appName = '';
-    stop();
+    pause();
 }

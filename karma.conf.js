@@ -3,7 +3,6 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai'],
     
         files: [
-            {pattern: './build/build.js', watched: true},
             {pattern: './tests/dummyFrameController.js', included: false},
             {pattern: './tests/**/*.js', watched: true},
             {pattern: './tests/dummy_frame.html', watched: true, included: false},
@@ -15,9 +14,6 @@ module.exports = function(config) {
         },
 
         webpack: {
-            // externals: {
-            //     'FrameCommunication': 'FrameCommunication',
-            // },
             module: {
                 rules: [
                     {
@@ -44,8 +40,6 @@ module.exports = function(config) {
         browsers: ['Chrome'],
     
         client: {
-            // useIframe: false,
-            // runInParent: true,
             mocha: {
                 reporter: 'html'
             }

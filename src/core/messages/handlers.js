@@ -2,7 +2,7 @@
 
 import { Observable } from 'rxjs';
 import { getAppName } from '../../index';
-import { sayIam } from './messages';
+import { sayIAm } from './messages';
 
 const appDiscoveredObservers = [ ]
 
@@ -12,7 +12,7 @@ export function whoIsHandler(event) {
     const appName = data.whoIs.appName;
     const myAppName = getAppName();
     if (appName === myAppName) {
-        sayIam(source);
+        sayIAm(source, '*');
     }
 }
 

@@ -2,42 +2,44 @@
 
 import { Observable } from 'rxjs';
 import { getAppName } from '../../index';
+import { getAllFrameWindows } from '../query';
 
 const defaultOptions = [ ];
 
-const whoIsSubscribers = [ ];
-
 export const askWhoIs = (appName, frames, target) => {
-    return new Observable((subscriber) => {
-        const message = {
-            whoIs: {
-                appName: appName
-            }
+    const message = {
+        whoIs: {
+            appName: appName
         }
-        broadcastRawMessage(frames, message, target);
-        whoIsSubscribers.push((value) => {
-            subscriber.next(value);
-        });
-    });
+    }
+    broadcastRawMessage(frames, message, target);
 }
 
 export const sayIAm = (frame, target) => {
     const appName = getAppName();
     const message = {
-        iAm: appName
+        iAm: {
+            appName: appName
+        }
     }
     sendRawMessage(frame, message, target);
 }
 
 const broadcastRawMessage = (frames, ...postMessageOptions) => {
-    frames.forEach(frame => {
-        sendRawMessage(frame, ...postMessageOptions);
+    const f = frames || getAllFrameWindows();
+    f.forEach(frame => {
+        sendRawMessage(frame, ...parseOptions(postMessageOptions));
     });
 }
 
 const sendRawMessage = (frame, ...postMessageOptions) => {
-    const postMessage = frame.postMessage;
-    if (postMessage) {
-        postMessage(...postMessageOptions);
+    if (frame.postMessage) {
+        frame.postMessage(...parseOptions(postMessageOptions));
     }
 }
+
+const parseOptions = (options) => {
+    const parsed = options;
+    parsed[1] = (typeof options[1] === 'string') ? options[1] : '*';
+    return parsed;
+ }

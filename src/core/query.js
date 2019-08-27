@@ -5,15 +5,14 @@ export { Frame } from './Frame';
 
 export const getAllFrameWindows = () => { 
     const firstParent = getFirstParent(window);
-    const allFrames = getAllChildrenFrames(firstParent);
-    allFrames.push(firstParent);
-    return allFrames.filter((frame) => frame !== window);
+    const allFrames = [ firstParent, ...getAllChildrenFrames(firstParent) ];
+    return allFrames;
 }
 
 const getFirstParent = (mainFrame) => {
     const parentFrame = mainFrame.parent;
-    const parentIsSelf = parentFrame === window;
-    if (mainFrame.length !== 0 && !parentIsSelf) {
+    const parentIsSelf = parentFrame === mainFrame;
+    if (!parentIsSelf) {
         return getFirstParent(parentFrame);
     }
     return mainFrame;
@@ -28,5 +27,5 @@ const getAllChildrenFrames = (mainFrame) => {
             allChildrenFrames.push(...getAllChildrenFrames(childrenFrame));
         });
     }
-    return allChildrenFrames;
+    return allChildrenFrames.map(f => f.original);
 }

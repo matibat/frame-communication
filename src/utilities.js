@@ -5,6 +5,7 @@ export function windowToIterable(windowObject) {
         iterable.push(windowObject[i]);
     }
     iterable.frames = windowObject.frames;
+    iterable.original = windowObject;
     return iterable;
 }
 

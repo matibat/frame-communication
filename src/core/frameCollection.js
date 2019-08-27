@@ -41,13 +41,12 @@ export const start = function(_timeout) {
     if (REFRESH_INTERVAL) {
         stop();
     }
-    REFRESH_INTERVAL = setInterval(() => {;
-        const updatedFrames = getAllFrameWindows();
-        refresh(updatedFrames);
-    }, DEFAULT_REFRESH_TIMEOUT);
+    REFRESH_INTERVAL = setInterval(() => refresh(), DEFAULT_REFRESH_TIMEOUT);
+    refresh();
 }
 
-function refresh(updatedFrames) { 
+function refresh() { 
+    const updatedFrames = getAllFrameWindows();
     const removed = frames.filter(frame => !updatedFrames.includes(frame));
     const added = updatedFrames.filter(frame => !frames.includes(frame));
     removed.forEach(frame => removeFrame(frame));
@@ -55,7 +54,7 @@ function refresh(updatedFrames) {
 }
 
 export const stop = function() {
-    clearInterval(DEFAULT_REFRESH_TIMEOUT);
+    clearInterval(REFRESH_INTERVAL);
     REFRESH_INTERVAL = null;
 }
 
@@ -86,7 +85,7 @@ export const changes = new Observable(observer => {
     subscribersChanges.push(observer);
 
     frames.forEach((frame) => {
-        observer.next(frame);
+        observer.next({frame: frame, action: ACTION_ADD});
     });
 
     function unsubscribe() {

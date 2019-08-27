@@ -1,45 +1,66 @@
 'use strict'
 
-import { getAllFrameWindows } from '../src/core';
 import { isNumber } from 'util';
+
+import { getAllFrameWindows } from '../src/core';
+import * as FrameCommunication from '../src/index'; 
+import { DUMMY_APP_NAME, MAIN_APP_NAME, DEFAULT_TIMEOUT } from './constants';
+import { askWhoIs } from '../src/core/messages/messages';
 
 const assert = chai.assert;
 
-describe('core.findAllFrames()', function() {
+describe('core.getAllFrameWindows()', function() {
     let frames;
 
     this.beforeAll(function() {
-        console.log(JSON.stringify(FrameCommunication));
+        FrameCommunication.enable(MAIN_APP_NAME);
         frames = getAllFrameWindows();
     });
 
-    it('returns an array', function(resolve, reject) {
+    it('returns an array', function(done) {
         assert.isArray(frames)
-        resolve();
+        done();
     });
 
-    it('there is some element found', function(resolve, reject) {
+    it('there is some element found', function(done) {
         const length = frames.length;
         assert.isAtLeast(length, 1);
-        resolve();
+        done();
     });
 
-    it('returned array contains window frames', function(resolve, reject) {
+    it('returned array contains window frames', function(done) {
         frames.forEach(frame => {
             const hasLength = isNumber(frame.length);
             const hasFramesAttribute = Object.keys(frame).includes('frames');
             if (!(hasFramesAttribute && hasLength)) {
-                reject();
+                done(new Error('Returned non frame'));
             }
         });
-        resolve();
+        done();
     });
 });
 
-describe('query frames by app name', function() {
+describe('find frames by app name', function() {
     it('returns empty array if no one was found', function() {
         return FrameCommunication.findFrames('wrongAppName');
     })
 
-    it('finds some direct children frame');
+    it('finds itself', function(done) {
+        setTimeout(function() {
+            const found = FrameCommunication.findFrames(MAIN_APP_NAME);
+            if (found.length < 1) {
+                done(new Error('No one found'));
+            } else done();
+        }, DEFAULT_TIMEOUT);
+    });
+
+    it('finds another', function(done) {
+        askWhoIs(DUMMY_APP_NAME);
+        setTimeout(function() {
+            const found = FrameCommunication.findFrames(DUMMY_APP_NAME);
+            if (found.length < 1) {
+                done(new Error('No one found'));
+            } else done();
+        }, DEFAULT_TIMEOUT);
+    });
 });
