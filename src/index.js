@@ -4,7 +4,8 @@
 
 import { sayIAm, getAllFrameWindows, start as listen, stop as pause } from './core';
 
-export { Frame, findFrames, listen, pause } from './core';
+export { listen, pause };
+export { findFrames, Frame } from './Frame';
 
 let appName = '';
 
@@ -23,7 +24,7 @@ export function enable(_appName) {
 function announceMe() {
     const allFrameWindows = getAllFrameWindows();
     allFrameWindows.forEach(frame => {
-        sayIAm(frame);
+        sayIAm(frame, '*');
     });
 }
 

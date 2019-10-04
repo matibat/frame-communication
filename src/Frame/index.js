@@ -1,7 +1,6 @@
 'use strict'
 
-import { Observable } from 'rxjs';
-import { changes, ACTION_ADD, ACTION_REMOVE } from '../frameCollection';
+import { changes, ACTION_ADD, ACTION_REMOVE } from '../core/frameCollection';
 import { Frame } from './Frame';
 export { Frame };
 

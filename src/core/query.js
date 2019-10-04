@@ -1,7 +1,6 @@
 'use strict'
 
 import { windowToIterable } from '../utilities';
-export { Frame } from './Frame';
 
 export const getAllFrameWindows = () => { 
     const firstParent = getFirstParent(window);
